@@ -1,0 +1,110 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "recall-agents"
+version = "0.1.0"
+description = "Content-addressed result cache for Deep Agents subagent dispatch (Qdrant-backed AgentMiddleware)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "Mihir Inamdar", email = "mihirsinamdar@gmail.com" },
+]
+keywords = [
+  "deep-agents",
+  "langchain",
+  "qdrant",
+  "cache",
+  "middleware",
+  "agents",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "deepagents>=0.7.0",
+  "langchain>=1.3.0",
+  "langchain-core>=1.0.0",
+  "qdrant-client>=1.18.0",
+]
+
+[project.optional-dependencies]
+fastembed = [
+  "fastembed>=0.4.0",
+]
+anthropic = [
+  "langchain-anthropic>=0.3.0",
+]
+dev = [
+  "pytest>=8.0",
+  "pytest-asyncio>=0.24",
+  "ruff>=0.9.0",
+  "mypy>=1.14.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/inamdarmihir/recall"
+Documentation = "https://github.com/inamdarmihir/recall#readme"
+Repository = "https://github.com/inamdarmihir/recall"
+Article = "docs/ARTICLE.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/recall"]
+
+[tool.hatch.build.targets.wheel.sources]
+"src" = ""
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/src",
+  "/tests",
+  "/examples",
+  "/docs",
+  "/README.md",
+  "/LICENSE",
+  "/pyproject.toml",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "tests", "examples"]
+
+[tool.ruff.lint]
+select = [
+  "E",
+  "F",
+  "I",
+  "B",
+  "UP",
+  "SIM",
+  "RUF",
+]
+ignore = [
+  "E501",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B018"]
+"examples/*" = ["T201"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+ignore_missing_imports = true
+files = ["src/recall"]
