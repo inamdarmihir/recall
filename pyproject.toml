@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "recall-cache"
+version = "0.1.0"
+description = "Content-addressed result cache for Deep Agents subagent dispatch backed by Qdrant"
+requires-python = ">=3.11"
+dependencies = [
+    "qdrant-client>=1.18.0",
+    "agno>=2.8.6",
+    "mem0ai>=3.0.0",
+    "langgraph>=1.2.10",
+    "deepagents",
+    "langchain-openai>=1.4.0",
+    "langchain-core>=1.5.0",
+    "openai>=2.51.0",
+    "pydantic>=2.0",
+]
+
+[project.optional-dependencies]
+fastembed = ["fastembed>=0.5"]
+dev = ["pytest>=8", "pytest-asyncio>=0.24", "ruff>=0.6", "mypy>=1.11"]
+
+[project.scripts]
+recall = "recall.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["recall"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
